@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'com.selonj'
+version '3.6.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.apache.zookeeper:zookeeper:3.6.0'
+    testCompile 'junit:junit:4.13'
+    testCompile 'org.hamcrest:hamcrest-core:2.2'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+        excludeDirs += [file('.idea'), file('.gradle')]
+    }
+}
