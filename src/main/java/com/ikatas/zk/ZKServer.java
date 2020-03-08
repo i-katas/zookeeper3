@@ -19,13 +19,13 @@ import static org.apache.zookeeper.server.ServerMetrics.metricsProviderInitializ
  */
 public class ZKServer {
     private static final int NO_LIMITED = 0;
-    private final Callable<File> dataDir;
     private final ServerCnxnFactory serverFactory;
+    private final Callable<File> dataDir;
 
     public ZKServer(int serverPort, Callable<File> dataDir) {
-        this.dataDir = dataDir;
         try {
-            serverFactory = ServerCnxnFactory.createFactory(serverPort, NO_LIMITED);
+            this.serverFactory = ServerCnxnFactory.createFactory(serverPort, NO_LIMITED);
+            this.dataDir = dataDir;
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -40,12 +40,8 @@ public class ZKServer {
         }
     }
 
-    private ZooKeeperServer createServer(File dataDir) {
-        try {
-            return new ZooKeeperServer(dataDir, dataDir, 2000);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+    private ZooKeeperServer createServer(File dataDir) throws IOException {
+        return new ZooKeeperServer(dataDir, dataDir, 2000);
     }
 
     public void stop() {
