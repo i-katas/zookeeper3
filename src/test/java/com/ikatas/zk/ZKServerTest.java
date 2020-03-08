@@ -1,4 +1,4 @@
-package com.selonj.zk3;
+package com.ikatas.zk;
 
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooKeeper;

@@ -1,4 +1,4 @@
-package com.selonj.zk3;
+package com.ikatas.zk;
 
 import org.junit.After;
 import org.junit.Before;

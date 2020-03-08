@@ -1,4 +1,4 @@
-package com.selonj.zk3;
+package com.ikatas.zk;
 
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.metrics.impl.NullMetricsProvider;
