@@ -14,7 +14,7 @@ import java.io.IOException;
 public abstract class ZooKeeperTest {
     @Rule
     public final TemporaryFolder testFolder = new TemporaryFolder();
-    public final ZKServer server = new ZKServer(2181, testFolder::newFolder);
+    public final ZKServer server = ZKServer.continuous(2181, testFolder::newFolder);
 
 
     @Before
