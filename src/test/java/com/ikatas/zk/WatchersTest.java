@@ -118,12 +118,12 @@ public class WatchersTest extends ZooKeeperTest {
     }
 
     @Test
-    public void notifyDuplicatedWatchesOnce() throws InterruptedException, KeeperException {
+    public void notifyDuplicatedWatchesOnce() throws InterruptedException, KeeperException, IOException {
         create("/foo");
         Stat stat = zk.exists("/foo", events);
         zk.getData("/foo", events, stat);
 
-        zk.delete("/foo", stat.getVersion());
+        server.removeRecursively("/foo").join();
 
         assertThat(events.takeAll(), contains("SyncConnected:NodeDeleted:/foo"));
     }
