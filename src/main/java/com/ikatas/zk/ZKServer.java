@@ -24,10 +24,15 @@ import static org.apache.zookeeper.server.ServerMetrics.metricsProviderInitializ
  */
 public class ZKServer {
     private static final int NO_LIMITED = 0;
+    private static final int RANDOM_PORT = 0;
     private final ServerCnxnFactory serverFactory;
     private final Callable<File> dataDir;
     private boolean started;
     private ZooKeeperServer server;
+
+    public ZKServer(Callable<File> dataDir) {
+        this(RANDOM_PORT, dataDir);
+    }
 
     public ZKServer(int serverPort, Callable<File> dataDir) {
         try {

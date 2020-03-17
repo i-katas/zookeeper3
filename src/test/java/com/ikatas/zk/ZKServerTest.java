@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.contains;
 public class ZKServerTest {
     @Rule
     public final TemporaryFolder testFolder = new TemporaryFolder();
-    private final ZKServer server = new ZKServer(2181, testFolder::newFolder);
+    private final ZKServer server = new ZKServer(testFolder::newFolder);
 
 
     @Before
