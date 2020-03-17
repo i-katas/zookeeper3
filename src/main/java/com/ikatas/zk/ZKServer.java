@@ -26,6 +26,8 @@ public class ZKServer {
     private static final int NO_LIMITED = 0;
     private final ServerCnxnFactory serverFactory;
     private final Callable<File> dataDir;
+    private boolean started;
+    private ZooKeeperServer server;
 
     public ZKServer(int serverPort, Callable<File> dataDir) {
         try {
@@ -37,9 +39,14 @@ public class ZKServer {
     }
 
     public void start() {
+        if (started) {
+            return;
+        }
         try {
+            started = true;
             metricsProviderInitialized(new NullMetricsProvider());
-            serverFactory.startup(createServer(dataDir.call()));
+            server = createServer(dataDir.call());
+            serverFactory.startup(server);
         } catch (Exception e) {
             throw new UndeclaredThrowableException(e);
         }
@@ -51,7 +58,9 @@ public class ZKServer {
 
     public void stop() {
         if (serverFactory != null) {
+            server.shutdown(true);
             serverFactory.shutdown();
+            started = false;
         }
     }
 
@@ -106,6 +115,9 @@ public class ZKServer {
     }
 
     public ZooKeeper connect(String chroot) throws IOException {
+        if (!started) {
+            throw new IllegalStateException("Server has not been started!");
+        }
         return new ZooKeeper("localhost:" + serverFactory.getLocalPort() + chroot, 2000, null);
     }
 }

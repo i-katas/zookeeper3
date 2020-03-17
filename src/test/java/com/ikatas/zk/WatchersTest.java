@@ -31,6 +31,11 @@ public class WatchersTest extends ZooKeeperTest {
     private EventsCollector events = new EventsCollector();
     private ZooKeeper zk;
 
+    @Override
+    protected void setUp() throws IOException {
+        this.zk = server.connect();
+    }
+
     @Test
     public void watchConnectionEventsOnly() throws InterruptedException, KeeperException {
         zk.register(events);
@@ -128,11 +133,6 @@ public class WatchersTest extends ZooKeeperTest {
         assertThat(events.takeAll(), contains("SyncConnected:NodeDeleted:/foo"));
     }
 
-    @Override
-    protected void setUp() throws IOException {
-        this.zk = server.connect();
-    }
-
     public void create(String... paths) throws KeeperException, InterruptedException {
         create(OPEN_ACL_UNSAFE, paths);
     }
@@ -155,6 +155,10 @@ public class WatchersTest extends ZooKeeperTest {
         }
     }
 
+    @Override
+    protected void tearDown() throws Exception {
+        zk.close();
+    }
 
     private final static class EventsCollector implements Watcher {
         private final BlockingQueue<String> events = new ArrayBlockingQueue<>(3);

@@ -31,11 +31,11 @@ public class ZKServerTest {
 
     @Test
     public void handshake() throws IOException, KeeperException, InterruptedException {
-        ZooKeeper zk = server.connect();
+        try (ZooKeeper zk = server.connect()) {
+            List<String> children = zk.getChildren("/", null);
 
-        List<String> children = zk.getChildren("/", null);
-
-        assertThat(children, contains("zookeeper"));
+            assertThat(children, contains("zookeeper"));
+        }
     }
 
     @After

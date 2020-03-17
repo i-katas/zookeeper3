@@ -23,12 +23,16 @@ public abstract class ZooKeeperTest {
         setUp();
     }
 
-    protected void setUp() throws IOException {
+    protected void setUp() throws IOException, Exception {
     }
 
 
     @After
     public final void stopServer() throws Exception {
+        tearDown();
         server.stop();
+    }
+
+    protected void tearDown() throws Exception {
     }
 }
